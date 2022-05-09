@@ -24,13 +24,7 @@ library(e1071)
 #'  \code{range} is range of mtry values to try in downstream hyperparameter tuning given in the format: \code{upper.mtry:lower.mtry}
 #'
 #'
-#' @details
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
+#' @details Written primarily for rf wrapper function
 #' @rdname mtry.guide
 #' @export
 mtry.guide <- function(npred, #Numeric. Number of predictor variables.
@@ -65,19 +59,7 @@ mtry.guide <- function(npred, #Numeric. Number of predictor variables.
   return(list(ideal.mtry = m, upper.mtry = m.upper, lower.mtry = m.lower, range = range))
 }
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param rf.cm PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @rdname rf.resplot
-#' @export
+
 rf.resplot <- function(rf.cm)
   #results plot for random forest regression
 {
@@ -104,21 +86,15 @@ rf.resplot <- function(rf.cm)
 
 
 # Functions: Split Methods ------------------------------------------------
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param df PARAM_DESCRIPTION
-#' @param nsets PARAM_DESCRIPTION, Default: 10
-#' @param train.ratio PARAM_DESCRIPTION, Default: 0.8
-#' @param rf.type PARAM_DESCRIPTION
-#' @param vpred PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
+#' @title Split dataset
+#' @description Randomly split dataset by some ratio (e.g 80 train:20 test). Repeat several time for n number of sets. Default is 80:20.
+#' @param df Input dataset as dataframe.
+#' @param nsets Number of random sets to generate, Default: 10
+#' @param train.ratio Proportion of sample assigned to training set. Range from 0 to 1. E.g 0.8 indicates 80% of sample assigned to training set for a 80:20 train:test split, Default: 0.8
+#' @param rf.type One of: \code{"class} for classification trees or \code{"reg"} for regression trees.
+#' @param vpred Name of response variable. Required if rf.type = class.
+#' @return Outputs nsets*2 number of dataframes. Training sets are labeled train.i and Hold-out/Test sets are labeled hold.i where i ranges from 1 to nsets.
+#' @details Written primarily for rf wrapper function.
 #' @rdname split.ratio
 #' @export
 split.ratio <- function(df,
@@ -173,32 +149,6 @@ split.ratio <- function(df,
 
 
 # Function: Regression RF ----------------------------------------------------
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param vpred PARAM_DESCRIPTION
-#' @param custom.name PARAM_DESCRIPTION, Default: FALSE
-#' @param date PARAM_DESCRIPTION, Default: ''
-#' @param dataframe.name PARAM_DESCRIPTION, Default: ''
-#' @param predictors.name PARAM_DESCRIPTION, Default: ''
-#' @param mtry PARAM_DESCRIPTION, Default: 1:10
-#' @param ntree PARAM_DESCRIPTION, Default: (1:10) * 500
-#' @param nset PARAM_DESCRIPTION, Default: 10
-#' @param wd PARAM_DESCRIPTION, Default: getwd()
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @seealso
-#'  \code{\link[e1071]{tune.wrapper}}, \code{\link[e1071]{tune.control}}
-#'  \code{\link[randomForest]{randomForest}}, \code{\link[randomForest]{importance}}
-#' @rdname sa_rfreg
-#' @export
-#' @importFrom e1071 tune.randomForest tune.control
-#' @importFrom randomForest randomForest importance
 sa_rfreg <- function(vpred,
                      custom.name = FALSE,
                      date = "",
@@ -354,32 +304,6 @@ sa_rfreg <- function(vpred,
 
 
 # Function: Classification RF ---------------------------------------------
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param vpred PARAM_DESCRIPTION
-#' @param mtry PARAM_DESCRIPTION, Default: 1:10
-#' @param ntree PARAM_DESCRIPTION, Default: (1:10) * 500
-#' @param wd PARAM_DESCRIPTION, Default: wd.in
-#' @param custom.name PARAM_DESCRIPTION, Default: FALSE
-#' @param date PARAM_DESCRIPTION, Default: ''
-#' @param dataframe.name PARAM_DESCRIPTION, Default: ''
-#' @param predictors.name PARAM_DESCRIPTION, Default: ''
-#' @param nset PARAM_DESCRIPTION, Default: 10
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @seealso
-#'  \code{\link[e1071]{tune.wrapper}}
-#'  \code{\link[randomForest]{importance}}
-#' @rdname sa_rf
-#' @export
-#' @importFrom e1071 tune.randomForest
-#' @importFrom randomForest importance
 sa_rf <- function(vpred, mtry = 1:10, ntree = (1:10)*500,
                   wd = wd.in,
                   custom.name = FALSE,
@@ -522,39 +446,11 @@ sa_rf <- function(vpred, mtry = 1:10, ntree = (1:10)*500,
 
 
 # Functions: Variable importance formatting --------------------------------
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param df PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @rdname varimport_import
-#' @export
 varimport_import <- function(df)
   #edit varimp df imported from CSV
 {
   df.out <- df %>% rename(predictors = X)
 }
-
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param rf.type PARAM_DESCRIPTION
-#' @param metric PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @rdname select.varimp
-#' @export
 select.varimp <- function(rf.type, metric)
   #Select variable importance metric (gini, mse, mda)
 {
@@ -594,28 +490,6 @@ select.varimp <- function(rf.type, metric)
 
 
 # Function: Variable Importance -------------------------------------------
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param varimp PARAM_DESCRIPTION
-#' @param rf.type PARAM_DESCRIPTION
-#' @param metric PARAM_DESCRIPTION, Default: 'gini'
-#' @param selection_type PARAM_DESCRIPTION, Default: 'random_top'
-#' @param top PARAM_DESCRIPTION, Default: 20
-#' @param xlab PARAM_DESCRIPTION, Default: NA
-#' @param extract.names.df PARAM_DESCRIPTION, Default: NA
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @seealso
-#'  \code{\link[dplyr]{count}}
-#' @rdname varimport_plot
-#' @export
-#' @importFrom dplyr count
 varimport_plot <- function(varimp, #dataframe of variable importance
                            rf.type, #One of: "class" or "reg"
                            metric = "gini", #One of: "mse", "gini", or "mda)
@@ -741,22 +615,6 @@ varimport_plot <- function(varimp, #dataframe of variable importance
 
 # Functions: Density plot loop  --------------------------------------------
 #Density plot function:
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param df PARAM_DESCRIPTION
-#' @param x PARAM_DESCRIPTION
-#' @param dvar PARAM_DESCRIPTION
-#' @param tsize PARAM_DESCRIPTION, Default: 24
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @rdname gdens
-#' @export
 gdens <- function(df, #name of dataframe
                   x, #region to plot
                   dvar, #group by (e.g genotype)
@@ -776,32 +634,6 @@ gdens <- function(df, #name of dataframe
 
 
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param df PARAM_DESCRIPTION
-#' @param response PARAM_DESCRIPTION
-#' @param tsize PARAM_DESCRIPTION, Default: 24
-#' @param top PARAM_DESCRIPTION, Default: 20
-#' @param varimp PARAM_DESCRIPTION
-#' @param rf.type PARAM_DESCRIPTION
-#' @param metric PARAM_DESCRIPTION
-#' @param scale PARAM_DESCRIPTION, Default: 0.8
-#' @param ncol PARAM_DESCRIPTION, Default: 2
-#' @param xlab PARAM_DESCRIPTION, Default: NA
-#' @param extract.names.df PARAM_DESCRIPTION, Default: NA
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @seealso
-#'  \code{\link[cowplot]{plot_grid}}
-#' @rdname multi.density.plot
-#' @export
-#' @importFrom cowplot plot_grid
 multi.density.plot <- function(df, #dataframe containing predictor variables and response variable by subject
                                response, #response variable (text)
                                tsize = 24,
@@ -909,19 +741,6 @@ multi.density.plot <- function(df, #dataframe containing predictor variables and
 
 
 # Classification Matrix Aggregation ---------------------------------------
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param cm PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @rdname cm.aggregate
-#' @export
 cm.aggregate <- function(cm #cm object output from random forest functions
 )
   #First column of input cm must be named "X"
@@ -933,19 +752,6 @@ cm.aggregate <- function(cm #cm object output from random forest functions
   return(cm.out)
 }
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param agg.cm PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @rdname cm.prop
-#' @export
 cm.prop <- function(agg.cm #aggregated confusion matrix. Output from cm.aggregate function.
 )
   #Expresses confusion matrix as the percentage of each class being classified by each other class
@@ -963,20 +769,6 @@ cm.prop <- function(agg.cm #aggregated confusion matrix. Output from cm.aggregat
 
 
 # Mean and Stdev of Model Performance Indicators  -------------------------
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param rf.type PARAM_DESCRIPTION
-#' @param performance.table PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @rdname mean_var.rfmodel
-#' @export
 mean_var.rfmodel <- function(rf.type, #"class" or "reg"
                              performance.table #mbest.tab output
 ){
