@@ -9,7 +9,7 @@ mtry.guide(npred, rf.type, spread.upper = 5, spread.lower = 4)
 \arguments{
 \item{npred}{Numeric. Input number of predictor variables.}
 
-\item{rf.type}{One of: \code{"class} for classification trees or \code{"reg"} for regression trees.}
+\item{rf.type}{One of: \code{"class"} for classification trees or \code{"reg"} for regression trees.}
 
 \item{spread.upper}{Upper range of mtry to use above optimal mtry value, Default: 5}
 

@@ -22,8 +22,6 @@ library(e1071)
 #'  \code{upper.mtry} is upper range of mtry for downstream hyperparameter tuning \cr
 #'  \code{lower.mtry} is lowest value of mtry for downstream hyperparameter tuning \cr
 #'  \code{range} is range of mtry values to try in downstream hyperparameter tuning given in the format: \code{upper.mtry:lower.mtry}
-#'
-#'
 #' @details Written primarily for rf wrapper function
 #' @rdname mtry.guide
 #' @export
@@ -91,7 +89,7 @@ rf.resplot <- function(rf.cm)
 #' @param df Input dataset as dataframe.
 #' @param nsets Number of random sets to generate, Default: 10
 #' @param train.ratio Proportion of sample assigned to training set. Range from 0 to 1. E.g 0.8 indicates 80% of sample assigned to training set for a 80:20 train:test split, Default: 0.8
-#' @param rf.type One of: \code{"class} for classification trees or \code{"reg"} for regression trees.
+#' @param rf.type One of: \code{"class"} for classification trees or \code{"reg"} for regression trees.
 #' @param vpred Name of response variable. Required if rf.type = class.
 #' @return Outputs nsets*2 number of dataframes. Training sets are labeled train.i and Hold-out/Test sets are labeled hold.i where i ranges from 1 to nsets.
 #' @details Written primarily for rf wrapper function.

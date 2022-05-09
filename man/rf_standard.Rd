@@ -22,7 +22,7 @@ rf_standard(
 )
 }
 \arguments{
-\item{rf.type}{One of: \code{"class} for classification trees or \code{"reg"} for regression trees.}
+\item{rf.type}{One of: \code{"class"} for classification trees or \code{"reg"} for regression trees.}
 
 \item{vpred}{String. Name of response variable.}
 

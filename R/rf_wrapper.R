@@ -17,7 +17,7 @@ library(lubridate)
 
 #' @title Random Forest Wrapper
 #' @description Convenient wrapper function that runs Random Forest pipeline. This pipeline include 5-fold cross-validation and hyper-parameter tuning for mtry and ntree. Number of train/test splits and train/validation ratios are customizable by user.
-#' @param rf.type One of: \code{"class} for classification trees or \code{"reg"} for regression trees.
+#' @param rf.type One of: \code{"class"} for classification trees or \code{"reg"} for regression trees.
 #' @param vpred String. Name of response variable.
 #' @param df Input dataframe.
 #' @param dir Directory path for export. String.

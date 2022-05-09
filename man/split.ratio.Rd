@@ -13,7 +13,7 @@
 
 \item{train.ratio}{Proportion of sample assigned to training set. Range from 0 to 1. E.g 0.8 indicates 80% of sample assigned to training set for a 80:20 train:test split, Default: 0.8}
 
-\item{rf.type}{One of: \code{"class} for classification trees or \code{"reg"} for regression trees.}
+\item{rf.type}{One of: \code{"class"} for classification trees or \code{"reg"} for regression trees.}
 
 \item{vpred}{Name of response variable. Required if rf.type = class.}
 }
