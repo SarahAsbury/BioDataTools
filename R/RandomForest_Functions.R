@@ -14,7 +14,7 @@ library(e1071)
 #' @title Recommended mtry range
 #' @description Recommended mtry range based on number of paramerets and tree type
 #' @param npred Numeric. Input number of predictor variables.
-#' @param rf.type One of: \code{"class} for classification trees or \code{"reg"} for regression trees.
+#' @param rf.type One of: \code{"class"} for classification trees or \code{"reg"} for regression trees.
 #' @param spread.upper Upper range of mtry to use above optimal mtry value, Default: 5
 #' @param spread.lower Lower range of mtry to use below optimal mtry value: 4
 #' @return Returns a list: \cr
