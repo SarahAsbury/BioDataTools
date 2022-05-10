@@ -21,7 +21,7 @@ library(lubridate)
 #' @param vpred String. Name of response variable.
 #' @param df Input dataframe.
 #' @param dir Directory path for export. String.
-#' @param rf.param Save names for folders. Input 1-word or phrase that describes: c(dataset, predictor variable)  , Default: c(dataframe.name, predictors.name)
+#' @param rf.param Dataframe object as a string. Predictor variables name (any description) as a string.
 #' @param nsets (Optional) Number of train/validation sets to generate, Default: 10
 #' @param split.param (Optional) Proportion of sample assigned to training set. Range from 0 to 1. E.g 0.8 indicates 80% of sample assigned to training set for a 80:20 train:test split, Default: c(train.ratio = 0.8)
 #' @param mtry (Optional) Range of mtry values to try for Random Forest hyperparameter tuning. If NA, will use mtry.guide to select optimal mtry based on tree type and number of predictor variables, Default: NA
@@ -33,8 +33,7 @@ library(lubridate)
 #' @param experiment.note (Optional) User input human-readable note that will be sent to output log. May be used to log why/what is being run., Default: NA
 #' @return Exports random forest results to sub-folders within \code{dir}
 #' @details DETAILS
-#' @examples
-#' rf_standard(rf.type = "class", vpred = "Genotype", df = blood %>% select(-c(Sex, AnimalID)), dir = "/Users/Documents/experiment", experiment.note = "Predict mouse genotype from immune populations. No genotype excluded from dataframe. Exclude sex metadata.", rf.param = c(dataframe.name = "blood-allgenotypes", predictors.name = "immune"))
+#' @examples rf_standard(rf.type = "class", vpred = "Genotype", df = blood %>% select(-c(Sex, AnimalID)), dir = "/Users/Documents/experiment", experiment.note = "Predict mouse genotype from immune populations. No genotype excluded from dataframe. Exclude sex metadata.", rf.param = c(dataframe.name = "blood-allgenotypes", predictors.name = "immune"))
 #' @rdname rf_standard
 #' @export
 rf_standard <- function(rf.type, #"class" or "reg",
