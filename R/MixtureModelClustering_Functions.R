@@ -137,6 +137,7 @@ bootstrap.rmixmod <- function(df,
 
   #Start log
   log_open(paste0(directory, "/ClusterStabilityLog.txt"))
+  print("Log open")
   log_print(paste("Export results to:", directory))
 
   # === Original Model Clustering ===
@@ -159,7 +160,6 @@ bootstrap.rmixmod <- function(df,
   og.clusters <- extract.rmixmod.clusters(og.mod, og.index)
   log_print("Original cluster assignment results:")
   log_print(og.clusters)
-
 
   # === Bootstrapped Model Clustering ===
 
