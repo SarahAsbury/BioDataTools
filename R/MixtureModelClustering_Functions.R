@@ -130,10 +130,11 @@ bootstrap.rmixmod <- function(df,
 {
   #Set wd
   setwd(directory)
+  print("Set directory")
 
   #Setup parallel computing
   doParallel::registerDoParallel(numCores)
-
+  print("Register parallel cores")
 
   #Start log
   log_open(paste0(directory, "/ClusterStabilityLog.txt"))
