@@ -137,7 +137,7 @@ bootstrap.rmixmod <- function(df,
   print("Register parallel cores")
 
   #Start log
-  log_open(file_name = "ClusterStabilityLog.txt")
+  log_open()
   print("Log open")
   log_print(paste("Export results to:", directory))
 
