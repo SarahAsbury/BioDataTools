@@ -130,7 +130,6 @@ bootstrap.rmixmod <- function(df,
 {
   #Set wd
   setwd(directory)
-  log_print(paste("Export results to:", directory))
 
   #Setup parallel computing
   doParallel::registerDoParallel(numCores)
@@ -138,6 +137,7 @@ bootstrap.rmixmod <- function(df,
 
   #Start log
   log.results <- log_open(paste0(directory, "/ClusterStabilityLog.txt"))
+  log_print(paste("Export results to:", directory))
 
   # === Original Model Clustering ===
   #Cluster with full dataset
