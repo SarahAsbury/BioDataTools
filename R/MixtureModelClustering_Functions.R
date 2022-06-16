@@ -147,7 +147,7 @@ bootstrap.rmixmod <- function(df,
                           dataType = dataType.input,
                           criterion = criterion.input,
                           models = models.input, #only uses specified models (should be pre-optimized to select for models to test stability on)
-                          strategy = (seed = rmixmod.seed)
+                          seed = rmixmod.seed
   )
 
   #Index results to be extracted
@@ -183,7 +183,7 @@ bootstrap.rmixmod <- function(df,
                               dataType = dataType.input,
                               criterion = criterion.input,
                               models = models.input, #only uses specified models (should be pre-optimized to select for models to test stability on)
-                              strategy = (seed = rmixmod.seed)
+                              seed = rmixmod.seed
                               )
 
     #Index results for extraction
