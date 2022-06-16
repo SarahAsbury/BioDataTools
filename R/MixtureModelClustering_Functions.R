@@ -164,7 +164,7 @@ bootstrap.rmixmod <- function(df,
   # === Bootstrapped Model Clustering ===
 
   #Bootstrap
-  x <- foreach (i = 1:nboot) %dopar% {
+  x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
     log_print(paste("Resample set", i))
 
     #initialize loop
