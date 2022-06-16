@@ -23,14 +23,14 @@ library(lubridate)
 #' @param dir Directory path for export. String.
 #' @param rf.param Dataframe object as a string. Predictor variables name (any description) as a string.
 #' @param nsets (Optional) Number of train/validation sets to generate, Default: 10
-#' @param split.param (Optional) Proportion of sample assigned to training set. Range from 0 to 1. E.g 0.8 indicates 80% of sample assigned to training set for a 80:20 train:test split, Default: c(train.ratio = 0.8)
-#' @param mtry (Optional) Range of mtry values to try for Random Forest hyperparameter tuning. If NA, will use mtry.guide to select optimal mtry based on tree type and number of predictor variables, Default: NA
-#' @param ntree (Optional) Number of trees to try during Random Forest hyperparameter tuning, Default: (1:10) * 500
-#' @param top.variables (Optional) Number of top important predictor variables to plot, Default: NA
-#' @param varimp.param (Optional) Parameters to pass to variable importance plot. Default: c(selection_type = NA, metric = NA, xlab = NA)
-#' @param density.param (Optional) Parameters to pass to density plot, Default: c(scale = 0.8, ncol = 2, tsize = 10, xlab = NA)
-#' @param extract.names.df (Optional) Dataframe. A df must be provided if \code{density} param xlab = "extract". 1st columns is how the predictor variables should appear in the density plots (e.g IL-6 Concentration). 2nd column is how the predictor variable appears in input \code{df} (e.g IL.6.Concentration), Default: NA
-#' @param experiment.note (Optional) User input human-readable note that will be sent to output log. May be used to log why/what is being run., Default: NA
+#' @param split.param (Optional) Proportion of sample assigned to training set. Range from 0 to 1. For example 0.8 indicates 80\% of samples assigned to training set for a 80:20 train:test split, Default: c(train.ratio = 0.8).
+#' @param mtry (Optional) Range of mtry values to try for Random Forest hyperparameter tuning. If NA, will use mtry.guide to select optimal mtry based on tree type and number of predictor variables, Default: NA.
+#' @param ntree (Optional) Number of trees to try during Random Forest hyperparameter tuning, Default: (1:10) * 500.
+#' @param top.variables (Optional) Number of top important predictor variables to plot, Default: NA.
+#' @param varimp.param (Optional) Parameters to pass to variable importance plot. Default: c(selection_type = NA, metric = NA, xlab = NA).
+#' @param density.param (Optional) Parameters to pass to density plot, Default: c(scale = 0.8, ncol = 2, tsize = 10, xlab = NA).
+#' @param extract.names.df (Optional) Dataframe. A df must be provided if \code{density} param xlab = "extract". 1st columns is how the predictor variables should appear in the density plots (e.g IL-6 Concentration). 2nd column is how the predictor variable appears in input \code{df} (e.g IL.6.Concentration), Default: NA.
+#' @param experiment.note (Optional) User input human-readable note that will be sent to output log. May be used to log why/what is being run., Default: NA.
 #' @return Exports random forest results to sub-folders within \code{dir}
 #' @details DETAILS
 #' @examples rf_standard(rf.type = "class", vpred = "Genotype", df = blood %>% select(-c(Sex, AnimalID)), dir = "/Users/Documents/experiment", experiment.note = "Predict mouse genotype from immune populations. No genotype excluded from dataframe. Exclude sex metadata.", rf.param = c(dataframe.name = "blood-allgenotypes", predictors.name = "immune"))

@@ -147,6 +147,23 @@ split.ratio <- function(df,
 
 
 # Function: Regression RF ----------------------------------------------------
+#' @title sa_rfreg
+#' @description Run random forest regression for train/hold sets labeled train.1 to train.i and hold.1 to hold.i. This function is built to run with Split dataset function in the rf_standard wrapper. If the user does not provide a custom directory name (requires input of date, dataframe.name, and predictors.name), this function requires interaction in the R console.
+#' @param vpred Predictor variable as string.
+#' @param custom.name (Optional) \code{TRUE} or \code{FALSE}. Will the user input a custom name for the export directory? If FALSE, user must ineractively provide one in the console. \strong{Recommend to set \code{custom.fun  = TRUE} TRUE for automation}. Default: FALSE
+#' @param date (Optional). If \code{custome.name = FALSE} provide date in the input in a format suitable for folder/directory name.
+#' @param dataframe.name (Optional). If \code{custom.name = FALSE} provide short name of the dataset.
+#' @param predictors.name (Optional). If \code{custom.name = FALSE} provide short name of the dataset.
+#' @param mtry (Optional) Set range for optimization of mtry in randomForest function (predictor variables to use at each split). \strong{Recommend to determine using:} \code(mtry.guide()) Default: 1:10
+#' @param ntree (Optional) Set range for optimization of ntrees in randomForest function, Default: (1:10)*500
+#' @param nset Number of train/hold sets to try. \strong{Warning:} this number cannot be greater than the number of train/hold sets created using: \code{split.ratio()
+#' @param wd (Optional) Directory path where Random Forest results will be exported. Default is current working directory, Default: getwd()
+#'
+#' @seealso [randomForest()], [mtry.guide()], [split.ratio()],[rf_standard()]
+#' @return
+#' @export
+#'
+#' @examples
 sa_rfreg <- function(vpred,
                      custom.name = FALSE,
                      date = "",
@@ -279,7 +296,7 @@ sa_rfreg <- function(vpred,
   #Aggregate and save variable importance (average MSE/average Gini)
   varimp2 <- rfimp.tab %>% group_by(predictors) %>%
     summarise_at(vars(X.IncMSE, IncNodePurity), list(name = mean)) %>% arrange(desc(IncNodePurity_name))
-  write.csv(varimp2, "imp_aggregate.csv")
+  write.csv(varimp2, "imp_aggregate.csv", row.names = FALSE)
   print("Variable importance output complete")
 
   #Scatterplot of actual vs. predicted values
@@ -487,7 +504,7 @@ select.varimp <- function(rf.type, metric)
 }
 
 
-# Function: Variable Importance -------------------------------------------
+# Function: Variable Importance Plot -------------------------------------------
 varimport_plot <- function(varimp, #dataframe of variable importance
                            rf.type, #One of: "class" or "reg"
                            metric = "gini", #One of: "mse", "gini", or "mda)
@@ -738,7 +755,7 @@ multi.density.plot <- function(df, #dataframe containing predictor variables and
 
 
 
-# Classification Matrix Aggregation ---------------------------------------
+# Function: Classification Matrix Aggregation ---------------------------------------
 cm.aggregate <- function(cm #cm object output from random forest functions
 )
   #First column of input cm must be named "X"
@@ -766,7 +783,7 @@ cm.prop <- function(agg.cm #aggregated confusion matrix. Output from cm.aggregat
 
 
 
-# Mean and Stdev of Model Performance Indicators  -------------------------
+# Function: Mean and Stdev of Model Performance Indicators  -------------------------
 mean_var.rfmodel <- function(rf.type, #"class" or "reg"
                              performance.table #mbest.tab output
 ){

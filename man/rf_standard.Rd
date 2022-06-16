@@ -32,23 +32,23 @@ rf_standard(
 
 \item{nsets}{(Optional) Number of train/validation sets to generate, Default: 10}
 
-\item{split.param}{(Optional) Proportion of sample assigned to training set. Range from 0 to 1. E.g 0.8 indicates 80% of sample assigned to training set for a 80:20 train:test split, Default: c(train.ratio = 0.8)}
+\item{split.param}{(Optional) Proportion of sample assigned to training set. Range from 0 to 1. For example 0.8 indicates 80\% of samples assigned to training set for a 80:20 train:test split, Default: c(train.ratio = 0.8).}
 
-\item{mtry}{(Optional) Range of mtry values to try for Random Forest hyperparameter tuning. If NA, will use mtry.guide to select optimal mtry based on tree type and number of predictor variables, Default: NA}
+\item{mtry}{(Optional) Range of mtry values to try for Random Forest hyperparameter tuning. If NA, will use mtry.guide to select optimal mtry based on tree type and number of predictor variables, Default: NA.}
 
-\item{ntree}{(Optional) Number of trees to try during Random Forest hyperparameter tuning, Default: (1:10) * 500}
+\item{ntree}{(Optional) Number of trees to try during Random Forest hyperparameter tuning, Default: (1:10) * 500.}
 
-\item{top.variables}{(Optional) Number of top important predictor variables to plot, Default: NA}
+\item{top.variables}{(Optional) Number of top important predictor variables to plot, Default: NA.}
 
-\item{rf.param}{Save names for folders. Input 1-word or phrase that describes: c(dataset, predictor variable)  , Default: c(dataframe.name, predictors.name)}
+\item{rf.param}{Dataframe object as a string. Predictor variables name (any description) as a string.}
 
-\item{varimp.param}{(Optional) Parameters to pass to variable importance plot. Default: c(selection_type = NA, metric = NA, xlab = NA)}
+\item{varimp.param}{(Optional) Parameters to pass to variable importance plot. Default: c(selection_type = NA, metric = NA, xlab = NA).}
 
-\item{density.param}{(Optional) Parameters to pass to density plot, Default: c(scale = 0.8, ncol = 2, tsize = 10, xlab = NA)}
+\item{density.param}{(Optional) Parameters to pass to density plot, Default: c(scale = 0.8, ncol = 2, tsize = 10, xlab = NA).}
 
-\item{extract.names.df}{(Optional) Dataframe. A df must be provided if \code{density} param xlab = "extract". 1st columns is how the predictor variables should appear in the density plots (e.g IL-6 Concentration). 2nd column is how the predictor variable appears in input \code{df} (e.g IL.6.Concentration), Default: NA}
+\item{extract.names.df}{(Optional) Dataframe. A df must be provided if \code{density} param xlab = "extract". 1st columns is how the predictor variables should appear in the density plots (e.g IL-6 Concentration). 2nd column is how the predictor variable appears in input \code{df} (e.g IL.6.Concentration), Default: NA.}
 
-\item{experiment.note}{(Optional) User input human-readable note that will be sent to output log. May be used to log why/what is being run., Default: NA}
+\item{experiment.note}{(Optional) User input human-readable note that will be sent to output log. May be used to log why/what is being run., Default: NA.}
 }
 \value{
 Exports random forest results to sub-folders within \code{dir}
