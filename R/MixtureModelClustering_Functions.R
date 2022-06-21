@@ -545,6 +545,6 @@ x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
   print(best.cluster.df)
 }
 
-return(x)
+return(list(best = best.cluster.df, all = cluster.similarity.df))
 }
 
