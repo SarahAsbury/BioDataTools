@@ -535,16 +535,17 @@ x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
   print("Cluster similarity df:")
   print(cluster.similarity.df)
 
-  #Find best matching orginal - bootstrap pair of clusters
-  best.cluster.df <- cluster.similarity.df %>%
-    mutate(model_k = paste(model, k, sep = "_")) %>%
-    group_by(model_k, original.cluster) %>%
-    slice(which.max(cluster.similarity))
-
-  print("Best matching cluster:")
-  print(best.cluster.df)
 }
+#Find best matching orginal - bootstrap pair of clusters
+best.cluster.df <- x %>%
+  mutate(model_k = paste(model, k, sep = "_")) %>%
+  group_by(nboot, model_k, original.cluster) %>%
+  slice(which.max(cluster.similarity))
 
-return(list(best = best.cluster.df, all = cluster.similarity.df))
+print("Best matching clusters:")
+print(best.cluster.df)
+
+
+return(list(best = best.cluster.df, all = x))
 }
 
