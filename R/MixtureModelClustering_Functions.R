@@ -133,7 +133,7 @@ bootstrap.rmixmod.nolog <- function(df,
 
 {
   #Set wd
-  sink(file = paste0("bootstrap_rmixmod_log_", Sys.Date(),".txt")
+  sink(file = paste0("bootstrap_rmixmod_log_", Sys.Date(),".txt"))
   setwd(directory)
   print("Set directory")
   print(paste("Export results to:", directory))
