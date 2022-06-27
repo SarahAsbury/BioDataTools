@@ -201,9 +201,7 @@ x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
   #Extract cluster assignment results
   boot.clusters <- extract.rmixmod.clusters(boot.mod, boot.index)
   print(paste("Bootstrapped sample", i, "results"))
-  print(boot.clusters %>% head)
-
-  #Save boostraped cluster assignment
+  print(boot.clusters)
 
 
   # == Identify which bootstrapped cluster is most similar to original cluster ==
@@ -232,9 +230,8 @@ x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
 
 
     #Export bootstrapped clusters
-    print("HERE?")
-    og.cluster.parent <<- rbind(og.cluster.parent, og.cluster.samples %>% mutate(model_k = paste(model.og.meta$model, model.og.meta$k, sep = "_")))
-    boot.cluster.parent <<- rbind(boot.cluster.parent, boot.cluster.samples %>% mutate(model_k = paste(model.og.meta$model, model.og.meta$k, sep = "_")))
+    #og.cluster.parent <<- rbind(og.cluster.parent, og.cluster.samples %>% mutate(model_k = paste(model.og.meta$model, model.og.meta$k, sep = "_")))
+    #boot.cluster.parent <<- rbind(boot.cluster.parent, boot.cluster.samples %>% mutate(model_k = paste(model.og.meta$model, model.og.meta$k, sep = "_")))
 
 
 
