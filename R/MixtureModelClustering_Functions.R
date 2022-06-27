@@ -128,13 +128,20 @@ bootstrap.rmixmod.nolog <- function(df,
                               bestmods.df, #if only testing specific k and model combinations, provide df
                               directory, #full path of directory to export results
                               numCores = 1, #setup number of cares to use for parallel computing
-                              rmixmod.seed = 1 #clustering seed
+                              rmixmod.seed = 1, #clustering seed
+                              log = FALSE
 )
 
 {
   #Set wd
-  sink(file = paste0("bootstrap_rmixmod_log_", Sys.time(),".txt"))
   setwd(directory)
+
+  #Open log
+  if(log == TRUE){
+    sink(file = paste0("bootstrap_rmixmod_log_", Sys.time(),".txt"))
+  }
+
+  #Declare wd
   print("Set directory")
   print(paste("Export results to:", directory))
 
@@ -333,7 +340,9 @@ best.cluster.df <- x %>%
 print("Best matching clusters:")
 print(best.cluster.df)
 
+if(log == TRUE){
 sink()
+}
 return(list(best = best.cluster.df, all = x, original = og.clusters, boot = boot.cluster.parent))
 }
 
