@@ -134,7 +134,7 @@ bootstrap.rmixmod.nolog <- function(df,
 {
   #Set wd
   setwd(directory)
-  print(paste0("Log:" log))
+  print(paste0("Log:", log))
   #Open log
   if(log == TRUE){
     sink(file = paste0("bootstrap_rmixmod_log_", Sys.time(),".txt"))
