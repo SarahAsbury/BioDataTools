@@ -131,7 +131,6 @@ bootstrap.rmixmod.nolog <- function(df,
                               rmixmod.seed = 1, #clustering seed
                               log = FALSE
 )
-
 {
   #Set wd
   setwd(directory)
