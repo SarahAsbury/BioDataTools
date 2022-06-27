@@ -132,7 +132,6 @@ bootstrap.rmixmod.nolog <- function(df,
                               )
 {
   #Set wd
-  sink(file = paste0("bootstrap_rmixmod_log_", Sys.Date(),".txt"))
   setwd(directory)
 
   #Declare wd
@@ -229,8 +228,8 @@ x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
 
 
     #Export bootstrapped clusters
-    #og.cluster.parent <<- rbind(og.cluster.parent, og.cluster.samples %>% mutate(model_k = paste(model.og.meta$model, model.og.meta$k, sep = "_")))
-    #boot.cluster.parent <<- rbind(boot.cluster.parent, boot.cluster.samples %>% mutate(model_k = paste(model.og.meta$model, model.og.meta$k, sep = "_")))
+    og.cluster.parent <<- rbind(og.cluster.parent, og.cluster.samples %>% mutate(model_k = paste(model.og.meta$model, model.og.meta$k, sep = "_")))
+    boot.cluster.parent <<- rbind(boot.cluster.parent, boot.cluster.samples %>% mutate(model_k = paste(model.og.meta$model, model.og.meta$k, sep = "_")))
 
 
 
@@ -337,7 +336,6 @@ best.cluster.df <- x %>%
 
 print("Best matching clusters:")
 print(best.cluster.df)
-sink()
 return(list(best = best.cluster.df, all = x))
 }
 
