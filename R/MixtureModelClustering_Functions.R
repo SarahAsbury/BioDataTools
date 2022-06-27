@@ -128,12 +128,11 @@ bootstrap.rmixmod.nolog <- function(df,
                               bestmods.df, #if only testing specific k and model combinations, provide df
                               directory, #full path of directory to export results
                               numCores = 1, #setup number of cares to use for parallel computing
-                              rmixmod.seed = 1 #clustering seed
+                              rmixmod.seed = 1, #clustering seed
                               )
 {
   #Set wd
   setwd(directory)
-  #Open log
 
   #Declare wd
   print("Set directory")
@@ -169,7 +168,6 @@ print(og.clusters)
 #Initialize outside loop
 boot.cluster.parent <- data.frame()
 og.cluster.parent <- data.frame()
-
 
 #Bootstrap
 x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
