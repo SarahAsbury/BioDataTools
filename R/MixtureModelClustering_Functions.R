@@ -230,6 +230,9 @@ x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
     #Export bootstrapped clusters
     og.cluster.parent <<- rbind(og.cluster.parent, og.cluster.samples %>% mutate(model_k = paste(model.og.meta$model, model.og.meta$k, sep = "_")))
     boot.cluster.parent <<- rbind(boot.cluster.parent, boot.cluster.samples %>% mutate(model_k = paste(model.og.meta$model, model.og.meta$k, sep = "_")))
+    assign(og.cluster.parent, og.cluster.parent, envir = globalenv())
+    assign(boot.cluster.parent, og.cluster.parent, envir = globalenv())
+
 
 
 
