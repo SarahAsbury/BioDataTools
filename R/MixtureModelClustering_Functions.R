@@ -165,12 +165,14 @@ print("Original cluster assignment results:")
 print(og.clusters)
 
 # === Bootstrapped Model Clustering ===
+#Initialize outside loop
+boot.cluster.parent <- data.frame()
 
 #Bootstrap
 x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
   print(paste("Resample set", i))
 
-  #initialize loop
+  #initialize inside loop
   cluster.similarity.df <- data.frame()
 
 
@@ -197,6 +199,9 @@ x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
   boot.clusters <- extract.rmixmod.clusters(boot.mod, boot.index)
   print(paste("Bootstrapped sample", i, "results"))
   print(boot.clusters)
+
+  #Save boostraped cluster assignment
+  assign(boot.cluster.parent, rbind(boot.cluster.parent, boot.clusters), envir = parent.env(environment()))
 
 
   # == Identify which bootstrapped cluster is most similar to original cluster ==
@@ -318,6 +323,7 @@ x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
   print(cluster.similarity.df)
 
 }
+
 #Find best matching orginal - bootstrap pair of clusters
 best.cluster.df <- x %>%
   mutate(model_k = paste(model, k, sep = "_")) %>%
@@ -328,6 +334,6 @@ print("Best matching clusters:")
 print(best.cluster.df)
 
 sink()
-return(list(best = best.cluster.df, all = x))
+return(list(best = best.cluster.df, all = x, original = og.clusters, boot = boot.cluster.parent))
 }
 
