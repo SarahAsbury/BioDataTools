@@ -129,12 +129,12 @@ bootstrap.rmixmod.nolog <- function(df,
                               directory, #full path of directory to export results
                               numCores = 1, #setup number of cares to use for parallel computing
                               rmixmod.seed = 1, #clustering seed
-                              log = FALSE
-)
+                              log = FALSE #export logs to text file
+                              )
 {
   #Set wd
   setwd(directory)
-
+  print(paste0("Log:" log))
   #Open log
   if(log == TRUE){
     sink(file = paste0("bootstrap_rmixmod_log_", Sys.time(),".txt"))
