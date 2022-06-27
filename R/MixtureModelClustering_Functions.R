@@ -339,6 +339,6 @@ best.cluster.df <- x %>%
 
 print("Best matching clusters:")
 print(best.cluster.df)
-return(list(best = best.cluster.df, all = x))
+return(list(best = best.cluster.df, all = x, original = og.cluster.parent, boot = boot.cluster.parent))
 }
 
