@@ -201,7 +201,7 @@ x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
   #Extract cluster assignment results
   boot.clusters <- extract.rmixmod.clusters(boot.mod, boot.index)
   print(paste("Bootstrapped sample", i, "results"))
-  print(boot.clusters)
+  print(boot.clusters %>% head)
 
   #Save boostraped cluster assignment
 
