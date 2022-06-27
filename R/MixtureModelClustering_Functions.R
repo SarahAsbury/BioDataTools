@@ -300,11 +300,11 @@ x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
 
 
         #Jaccard Similarity
-        og.samp.jac <- cluster.h %>%
+        og.samp.jac <<- cluster.h %>%
           filter(samples %in% rownames(resampled)) %>% #removes samples not present in bootstrapped sample
           pull(samples)
 
-        boot.samp.jac <- cluster.m %>%
+        boot.samp.jac <<- cluster.m %>%
           group_by(samples) %>% slice(1) %>% ungroup() %>% #extract first occurrence (i.e. remove duplicates)
           pull(samples)
 
@@ -337,6 +337,6 @@ best.cluster.df <- x %>%
 print("Best matching clusters:")
 print(best.cluster.df)
 
-return(list(best = best.cluster.df, all = x, original = og.cluster.parent, boot = boot.cluster.parent))
+return(list(best = best.cluster.df, all = x))
 }
 
