@@ -133,7 +133,6 @@ bootstrap.rmixmod.nolog <- function(df,
 {
   #Set wd
   setwd(directory)
-  print(paste0("Log:", log))
   #Open log
 
   #Declare wd
@@ -169,6 +168,8 @@ print(og.clusters)
 # === Bootstrapped Model Clustering ===
 #Initialize outside loop
 boot.cluster.parent <- data.frame()
+og.cluster.parent <- data.frame()
+
 
 #Bootstrap
 x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
@@ -203,7 +204,6 @@ x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
   print(boot.clusters)
 
   #Save boostraped cluster assignment
-  assign(boot.cluster.parent, rbind(boot.cluster.parent, boot.clusters), envir = parent.env(environment()))
 
 
   # == Identify which bootstrapped cluster is most similar to original cluster ==
@@ -229,6 +229,12 @@ x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
     #Extract sample cluster assignment for i-th model
     og.cluster.samples <- og.clusters[["cluster"]][[model.og.index]]
     boot.cluster.samples <- boot.clusters[["cluster"]][[model.boot.index]]
+
+
+    #Export bootstrapped clusters
+    og.cluster.parent <<- rbind(og.cluster.parent, og.cluster.samples %>% mutate(model_k = paste(model.og.meta$model, model.og.meta$k, sep = "_")))
+    boot.cluster.parent <<- rbind(boot.cluster.parent, boot.cluster.samples %>% mutate(model_k = paste(model.og.meta$model, model.og.meta$k, sep = "_")))
+
 
 
     #Number of clusters in i-th model
@@ -298,11 +304,11 @@ x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
 
 
         #Jaccard Similarity
-        og.samp.jac <<- cluster.h %>%
+        og.samp.jac <- cluster.h %>%
           filter(samples %in% rownames(resampled)) %>% #removes samples not present in bootstrapped sample
           pull(samples)
 
-        boot.samp.jac <<- cluster.m %>%
+        boot.samp.jac <- cluster.m %>%
           group_by(samples) %>% slice(1) %>% ungroup() %>% #extract first occurrence (i.e. remove duplicates)
           pull(samples)
 
@@ -335,6 +341,6 @@ best.cluster.df <- x %>%
 print("Best matching clusters:")
 print(best.cluster.df)
 
-return(list(best = best.cluster.df, all = x, original = og.clusters, boot = boot.cluster.parent))
+return(list(best = best.cluster.df, all = x, original = og.cluster.parent, boot = boot.cluster.parent))
 }
 
