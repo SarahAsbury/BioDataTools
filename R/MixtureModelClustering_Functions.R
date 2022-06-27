@@ -132,6 +132,7 @@ bootstrap.rmixmod.nolog <- function(df,
                               )
 {
   #Set wd
+  sink(file = paste0("bootstrap_rmixmod_log_", Sys.Date(),".txt"))
   setwd(directory)
 
   #Declare wd
@@ -336,7 +337,7 @@ best.cluster.df <- x %>%
 
 print("Best matching clusters:")
 print(best.cluster.df)
-
+sink()
 return(list(best = best.cluster.df, all = x))
 }
 
