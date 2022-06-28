@@ -217,7 +217,7 @@ x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
   {
 
     #Get i-th model metadata
-    model.og.meta <- og.clusters[["meta"]] %>% mutate(model_k = paste(Model, k, sep = "_")) %>% (cluster.index == j) #get information for i-th model
+    model.og.meta <- og.clusters[["meta"]] %>% mutate(model_k = paste(Model, k, sep = "_")) %>% filter(cluster.index == j) #get information for i-th model
 
     #Original and bootsrapped i-th model index
     model.og.index <- j #extract j-th model from original clustering
