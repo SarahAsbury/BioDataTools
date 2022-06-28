@@ -118,6 +118,7 @@ extract.rmixmod.clusters <- function(rmixmod.object, #rmixmod clustering object
 # Logr workaround ---------------------------------------------------------
 #Originally had logr output print statements
 #No longer a log
+#Can sink if necessary
 
 bootstrap.rmixmod.nolog <- function(df,
                               nbCluster.input = 2:5,
@@ -125,7 +126,7 @@ bootstrap.rmixmod.nolog <- function(df,
                               criterion.input = "ICL",
                               models.input = mixmodGaussianModel(),
                               nboot = 1000,
-                              bestmods.df, #if only testing specific k and model combinations, provide df
+                              bestmods.df, #if only testing specific k and model combinations, provide a dataframe object with 1 column with model_k
                               directory, #full path of directory to export results
                               numCores = 1, #setup number of cares to use for parallel computing
                               rmixmod.seed = 1 #clustering seed
@@ -216,11 +217,12 @@ x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
   {
 
     #Get i-th model metadata
-    model.og.meta <- og.clusters[["meta"]] %>% filter(cluster.index == j) #get information for i-th model
+    model.og.meta <- og.clusters[["meta"]] %>% mutate(model_k = paste(Model, k, sep = "_")) %>% (cluster.index == j) #get information for i-th model
 
     #Original and bootsrapped i-th model index
-    model.og.index <- j #extract i-th model from original clustering
-    model.boot.index <- boot.clusters[["meta"]] %>% filter(model == model.og.meta$model & k == model.og.meta$k) %>% pull(cluster.index) %>% as.numeric() #extract i-th model for bootstrapped clustering
+    model.og.index <- j #extract j-th model from original clustering
+    model.boot.index <- boot.clusters[["meta"]] %>% mutate(model_k = paste(Model, k, sep = "_")) %>%
+      filter(model_k == model.og.meta$model_k) %>% pull(cluster.index) %>% as.numeric() #extract i-th model for bootstrapped clustering
 
     #Extract sample cluster assignment for i-th model
     og.cluster.samples <- og.clusters[["cluster"]][[model.og.index]]
@@ -230,8 +232,6 @@ x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
     #Export bootstrapped clusters
     og.cluster.parent <<- rbind(og.cluster.parent, og.cluster.samples %>% mutate(model_k = paste(model.og.meta$model, model.og.meta$k, sep = "_")))
     boot.cluster.parent <<- rbind(boot.cluster.parent, boot.cluster.samples %>% mutate(model_k = paste(model.og.meta$model, model.og.meta$k, sep = "_")))
-    assign(og.cluster.parent, og.cluster.parent, envir = globalenv())
-    assign(boot.cluster.parent, og.cluster.parent, envir = globalenv())
 
 
 
