@@ -115,8 +115,9 @@ extract.rmixmod.clusters <- function(rmixmod.object, #rmixmod clustering object
 
 
 
-# Logr workaround ---------------------------------------------------------
+# Clustering - Logr workaround ---------------------------------------------------------
 #Originally had logr output print statements
+#Logr failed on linux environment
 #No longer a log
 #Can sink if necessary
 
@@ -132,7 +133,6 @@ bootstrap.rmixmod.nolog <- function(df,
                               rmixmod.seed = 1 #clustering seed
                               )
 {
-  #Set wd
   setwd(directory)
 
   #Declare wd
@@ -152,8 +152,8 @@ og.mod <- mixmodCluster(df,
                         dataType = dataType.input,
                         criterion = criterion.input,
                         models = models.input, #only uses specified models (should be pre-optimized to select for models to test stability on)
-                        seed = rmixmod.seed
-)
+                        seed = rmixmod.seed)
+
 
 #Index results to be extracted
 #Only extract k cluster models in specific.model.df
@@ -210,19 +210,22 @@ x <- foreach (i = 1:nboot, .combine=rbind) %dopar% {
   print("bootstrapped cluster metadata")
   print(head(boot.clusters[["meta"]]))
 
-
-
+  print('Index:')
+  print(og.index)
   # === cluster similarity ===
-  for(j in 1:(og.clusters[["meta"]] %>% nrow())) #repeat for each selected model
+  for(j in og.index) #repeat for each selected model
   {
+    print(paste("Original index:", j))
 
     #Get i-th model metadata
-    model.og.meta <- og.clusters[["meta"]] %>% mutate(model_k = paste(Model, k, sep = "_")) %>% filter(cluster.index == j) #get information for i-th model
+    model.og.meta <- og.clusters[["meta"]] %>% mutate(model_k = paste(model, k, sep = "_")) %>% filter(mod.index == j) #get information for i-th model
+    print(model.og.meta)
 
     #Original and bootsrapped i-th model index
     model.og.index <- j #extract j-th model from original clustering
-    model.boot.index <- boot.clusters[["meta"]] %>% mutate(model_k = paste(Model, k, sep = "_")) %>%
+    model.boot.index <- boot.clusters[["meta"]] %>% mutate(model_k = paste(model, k, sep = "_")) %>%
       filter(model_k == model.og.meta$model_k) %>% pull(cluster.index) %>% as.numeric() #extract i-th model for bootstrapped clustering
+    print(model.boot.index)
 
     #Extract sample cluster assignment for i-th model
     og.cluster.samples <- og.clusters[["cluster"]][[model.og.index]]
