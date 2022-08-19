@@ -172,11 +172,12 @@ pls.pipeline <- function(response.mat, #matrix of predictor variables
                          pred.mat, #matrix of response variables,
                          ncomp = 10, #number of latent variables to try
                          validation = "LOO", #validation methods; default is Leave One Out)
-                         response.vars #character vector of response variables
+                         response.vars, #character vector of response variables
+                         z_scale = TRUE #z-score scaling
 )
 {
   # === Run PLS model ===
-  pls <- plsr(response.mat ~ pred.mat, ncomp = ncomp, validation = validation)
+  pls <- plsr(response.mat ~ pred.mat, ncomp = ncomp, validation = validation, scale = z_scale, center = z_scale)
 
   # === RMSE: Extract and plot ===
   rmse.performance <- pls.model.rmse(pls = pls, response.vars = response.vars)
