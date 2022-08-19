@@ -166,6 +166,9 @@ pls.plot.accuracy <- function(accuracy #pls.model.accuracy output object
 }
 
 
+#plot co-efficients
+
+
 
 # === Pipeline function ===
 pls.pipeline <- function(response.mat, #matrix of predictor variables
@@ -173,7 +176,7 @@ pls.pipeline <- function(response.mat, #matrix of predictor variables
                          ncomp = 10, #number of latent variables to try
                          validation = "LOO", #validation methods; default is Leave One Out)
                          response.vars, #character vector of response variables
-                         z_scale = TRUE #z-score scaling
+                         z_scale = TRUE #z-score scaling, default is to scale
 )
 {
   # === Run PLS model ===
