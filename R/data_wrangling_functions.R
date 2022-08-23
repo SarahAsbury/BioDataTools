@@ -1,11 +1,22 @@
 #General functions used for cleaning datasets
 
 
-#string_as_variable
-#Uses character string assigned to an R object, and treats it as a variable
-#Useful for creating dynamic variables inside functions
-  #Especially ggplot2
+# Pipe Status Functions ----------------------------------------------------------
+#pipe_underpass
+#https://stackoverflow.com/questions/46123285/printing-intermediate-results-without-breaking-pipeline-in-tidyverse
+pipe_underpass <- function(df, fun){
+  fun(df)
+  return(df)
+}
 
-strings_as_variable <- function(x){
-  return(eval(parse(text = x)))
+#pipe_message
+pipe_message <- function(df, statement){
+  message(statement)
+  return(df)
+}
+
+#pipe_data_status
+pipe_data_status <- function(df){
+  print(head(df))
+  return(df)
 }
