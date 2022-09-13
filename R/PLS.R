@@ -82,7 +82,7 @@ extract.comps <- function(pls.extract, #dataframe from plsr object; columns expe
 
 #extract rmse from pls
 pls.model.rmse <- function(pls, #pls object
-                           response.vars #character vector of prs response variables
+                           response.vars, #character vector of prs response variables
                            intercept = TRUE ##logical; is responsevariable.Intercept. a column in pls.extract?
 )
 {
