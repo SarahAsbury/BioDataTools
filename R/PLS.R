@@ -8,7 +8,7 @@ library(pls)
 # === Sub-functions ===
 #extract results from pls objects (general function)
 extract.comps <- function(pls.extract, #dataframe from plsr object; columns expected in following format: responsevariable.comp.x
-                          response.vars = taxa, #character vector of response variable column names
+                          response.vars, #character vector of response variable column names
                           min = TRUE, #extract minimum value
                           intercept = TRUE, #logical; is responsevariable.Intercept. a column in pls.extract?
                           transpose = TRUE){
@@ -23,8 +23,8 @@ extract.comps <- function(pls.extract, #dataframe from plsr object; columns expe
   if(omitted.row > 0){
     print(paste("Print omitted", omitted.row, "rows"))
   }
-
-
+  print("plsr extract dataframe column names")
+  print(colnames(pls.extract))
 
   #initiate loop lists
   comp.performance <- list()
