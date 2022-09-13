@@ -138,7 +138,7 @@ pls.model.accuracy <- function(rmse.performance, #pls.model.rmse output object
                                pls #pls object
 ){
   #best # components for each taxa
-  #remove taxa where intercept (0) is best performing number of components
+  #remove response variables (e.g taxa) where intercept (0) is best performing number of components
   best.comp <- bind_rows(rmse.performance$minCV, .id = "column_label") %>% filter(comps != "Intercept") %>%
     mutate(column.select = paste(column_label, comps, sep = "."))
 
@@ -161,6 +161,8 @@ pls.model.accuracy <- function(rmse.performance, #pls.model.rmse output object
 pls.plot.accuracy <- function(accuracy #pls.model.accuracy output object
 ){
   viable.response <- (accuracy$viable.response.comp$column_label)
+
+  if(length(viable.response) > 0){
   plot.list <- list()
   for(i in 1:length(viable.response)){
     temp.response <- viable.response[i]
@@ -179,7 +181,14 @@ pls.plot.accuracy <- function(accuracy #pls.model.accuracy output object
     plot.list[[i]] <- p
   }
   plots <- cowplot::plot_grid(plotlist = plot.list, ncol = 2, scale = 0.95)
+  }
+
+  else{
+    plots <- NULL
+    print("No response variable met criteria for viable response (i.e. Intercept had best RMSE performance). No plots returned.")
+  }
   return(plots)
+
 }
 
 
@@ -206,7 +215,6 @@ pls.pipeline <- function(response.mat, #matrix of predictor variables
   # === RMSE: Extract and plot ===
   print("2. Extract model performance (RMSE")
   rmse.performance <- pls.model.rmse(pls = pls, response.vars = response.vars, intercept = intercept, ncomp = ncomp)
-  print(head(rmse.performance))
   print("3. Plot and store model performance figure")
   rmse.plot <- pls.plot.rmse(rmse.performance = rmse.performance)
 
