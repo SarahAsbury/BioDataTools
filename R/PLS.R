@@ -4,7 +4,7 @@ library(pls)
 
 
 
-# Functions: PLS ----------------------------------------------------------
+# Subfunctions ------------------------------------------------------------
 # === Sub-functions ===
 #extract results from pls objects (general function)
 extract.comps <- function(pls.extract, #dataframe from plsr object; columns expected in following format: responsevariable.comp.x
@@ -23,6 +23,8 @@ extract.comps <- function(pls.extract, #dataframe from plsr object; columns expe
   if(omitted.row > 0){
     print(paste("Print omitted", omitted.row, "rows"))
   }
+
+
 
   #initiate loop lists
   comp.performance <- list()
@@ -89,7 +91,7 @@ pls.model.rmse <- function(pls, #pls object
   rmsep <- RMSEP(pls)
   rmsep.extract <- rmsep$val %>% data.frame
   rmse.performance <- extract.comps(pls.extract = rmsep.extract,
-                                    response.vars = taxa,
+                                    response.vars = response.vars,
                                     min = TRUE,
                                     intercept = intercept)
   return(rmse.performance)
@@ -169,9 +171,11 @@ pls.plot.accuracy <- function(accuracy #pls.model.accuracy output object
 
 
 #plot co-efficients
+# *** in development ***
 
 
 
+# Pipeline Functions ------------------------------------------------------
 # === Pipeline function ===
 pls.pipeline <- function(response.mat, #matrix of predictor variables
                          pred.mat, #matrix of response variables,
