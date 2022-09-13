@@ -205,7 +205,7 @@ pls.coef.plot <- function(pls, #object
   }
 
   pls.coefficients <- pls$coefficients %>% data.frame() %>%
-    mutate(response = !!as.name(response.colname) %>% as.numeric) %>%
+    mutate(response = (!!as.name(response.colname)) %>% as.numeric) %>%
     select(response) %>%
     rownames_to_column(var = "variable")
 
