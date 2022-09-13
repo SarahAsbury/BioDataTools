@@ -192,9 +192,41 @@ pls.plot.accuracy <- function(accuracy #pls.model.accuracy output object
 }
 
 
-#plot co-efficients
-# *** in development ***
 
+
+# === plot co-efficients ===
+#Single co-efficient plot
+pls.coef.plot <- function(pls,
+                          response.colname
+)
+{
+  if(length(response.colname) != 1){
+    stop("There should be a single response variable column name provided.")
+  }
+
+  pls.coefficients <- pls$coefficients %>% data.frame() %>%
+    mutate(response =  eval(parse(text = response.colname)) %>% as.numeric) %>%
+    select(response) %>%
+    rownames_to_column(var = "variable")
+
+  #plot
+  p <- pls.coefficients  %>%
+    ggdotchart(y = "response", x = "variable",
+               ggtheme = theme_pubr(),
+               add = "segment",
+               color = "response") +
+    scale_colour_gradientn(colours = hcl.colors(n = 10, palette = "Blue-Red")) +
+    coord_flip()
+
+  return(p)
+}
+
+#Looped; plot all viable response variables
+pls.coefficients <- function(accuracy, #pls.model.accuracy output object; used to determine which response variables are viable
+                             pls #pls object; used to extract co-efficients
+                             )
+  {
+}
 
 
 # Pipeline Functions ------------------------------------------------------
