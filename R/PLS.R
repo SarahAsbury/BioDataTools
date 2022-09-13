@@ -231,8 +231,9 @@ pls.coefficients <- function(accuracy, #pls.model.accuracy output object; used t
   if(length(viable.response) > 0){
     for(i in 1:length(viable.response)){
       response.colname <- viable.response[i]
-      plot.list[[i]] <- pls.coef.plot(pls = pls,
-                                      response.colname = response.colname)
+      p <- pls.coef.plot(pls = pls,
+                         response.colname = response.colname)
+      plot.list[[i]] <- p
 
     }
     plots <- cowplot::plot_grid(plotlist = plot.list, ncol = 2, scale = 0.95)
