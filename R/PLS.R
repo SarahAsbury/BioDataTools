@@ -227,12 +227,20 @@ pls.coefficients <- function(accuracy, #pls.model.accuracy output object; used t
                              pls #pls object; used to extract co-efficients
                              )
   {
+
+  #list viable response variable
   viable.response <- accuracy$viable.response.comp$column.select
+
+  #initialize loop variables
+  plot.list <- list()
+
+  #loop
   if(length(viable.response) > 0){
     for(i in 1:length(viable.response)){
       response.colname <- viable.response[i]
       p <- pls.coef.plot(pls = pls,
                          response.colname = response.colname)
+      print(p)
       plot.list[[i]] <- p
 
     }
