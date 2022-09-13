@@ -218,7 +218,7 @@ pls.coef.plot <- function(pls, #object
     scale_colour_gradientn(colours = hcl.colors(n = 10, palette = "Blue-Red")) +
     coord_flip() +
     theme(text = element_text(size = 9)) +
-    xlab(response.colname)
+    ylab(response.colname)
 
   return(p)
 }
