@@ -185,7 +185,7 @@ pls.plot.accuracy <- function(accuracy #pls.model.accuracy output object
 
   else{
     plots <- NULL
-    print("No response variable met criteria for viable response (i.e. Intercept had best RMSE performance). No plots returned.")
+    warning("No response variable met criteria for viable response (i.e. Intercept had best RMSE performance). No accuracy plots returned.")
   }
   return(plots)
 
@@ -204,8 +204,8 @@ pls.coef.plot <- function(pls, #object
     stop("There should be a single response variable column name provided.")
   }
 
-  pls.coefficients <- pls$coefficients %>% data.frame() %>%
-    mutate(response = (!!as.name(response.colname)) %>% as.numeric) %>%
+  pls.coefficients <- pls$coefficients %>% data.frame() %>% pipe_data_status() %>%
+    mutate(response = (.data[[response.colname]]) %>% as.numeric) %>%
     select(response) %>%
     rownames_to_column(var = "variable")
 
@@ -216,7 +216,8 @@ pls.coef.plot <- function(pls, #object
                add = "segment",
                color = "response") +
     scale_colour_gradientn(colours = hcl.colors(n = 10, palette = "Blue-Red")) +
-    coord_flip()
+    coord_flip() +
+    theme(text = element_text(size = 9))
 
   return(p)
 }
@@ -226,7 +227,25 @@ pls.coefficients <- function(accuracy, #pls.model.accuracy output object; used t
                              pls #pls object; used to extract co-efficients
                              )
   {
+  viable.response <- accuracy$viable.response.comp$column.select
+  if(length(viable.response) > 0){
+    for(i in 1:length(viable.response)){
+      response.colname <- viable.response[i]
+      plot.list[[i]] <- pls.coef.plot(pls = pls,
+                                      response.colname = response.colname)
+
+    }
+    plots <- cowplot::plot_grid(plotlist = plot.list, ncol = 2, scale = 0.95)
+  }
+
+  else{
+    plots <- NULL
+    warning("No response variable met criteria for viable response (i.e. Intercept had best RMSE performance). No co-efficient plots returned.")
+  }
+
+  return(plots)
 }
+
 
 
 # Pipeline Functions ------------------------------------------------------
@@ -258,11 +277,18 @@ pls.pipeline <- function(response.mat, #matrix of predictor variables
   print("5. Plot and store model accuracy figure")
   accuracy.plot <- pls.plot.accuracy(accuracy = accuracy)
 
+
+  # === Co-efficient Plots ===
+  print("6. Plot predictor variable co-efficients")
+  coefficient.plot <- pls.coefficients(accuracy = accuracy, pls = pls)
+
   # === return results ===
-  print('6. Store and return PLS results')
-  pls.output <- list(pls, rmse.performance, rmse.plot, accuracy, accuracy.plot)
-  names(pls.output) <- c("pls", "rmse", "rmse.plot", "accuracy", "accuracy.plot")
+  print('7. Store and return PLS results')
+  pls.output <- list(pls, rmse.performance, rmse.plot, accuracy, accuracy.plot, coefficient.plot)
+  names(pls.output) <- c("pls", "rmse", "rmse.plot", "accuracy", "accuracy.plot", "coefficient.plot")
   return(pls.output)
+
+
 }
 
 
