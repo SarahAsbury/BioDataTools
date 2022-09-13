@@ -206,6 +206,7 @@ pls.pipeline <- function(response.mat, #matrix of predictor variables
   # === RMSE: Extract and plot ===
   print("2. Extract model performance (RMSE")
   rmse.performance <- pls.model.rmse(pls = pls, response.vars = response.vars, intercept = intercept, ncomp = ncomp)
+  head(rmse.performance)
   print("3. Plot and store model performance figure")
   rmse.plot <- pls.plot.rmse(rmse.performance = rmse.performance)
 
