@@ -38,7 +38,7 @@ extract.comps <- function(pls.extract, #dataframe from plsr object; columns expe
 
     #all possible column names corresponding to response variable i
     if(intercept == TRUE){
-      all.response.colnames <- c(paste(response.temp, ".Intercept.", sep = .), paste(response.temp, 2:ncomp, "comps", sep = "."))
+      all.response.colnames <- c(paste(response.temp, ".Intercept.", sep = "."), paste(response.temp, 2:ncomp, "comps", sep = "."))
     }
 
     if(intercept == FALSE){
