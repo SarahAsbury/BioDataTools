@@ -83,13 +83,15 @@ extract.comps <- function(pls.extract, #dataframe from plsr object; columns expe
 #extract rmse from pls
 pls.model.rmse <- function(pls, #pls object
                            response.vars #character vector of prs response variables
+                           intercept = TRUE ##logical; is responsevariable.Intercept. a column in pls.extract?
 )
 {
   rmsep <- RMSEP(pls)
   rmsep.extract <- rmsep$val %>% data.frame
   rmse.performance <- extract.comps(pls.extract = rmsep.extract,
                                     response.vars = taxa,
-                                    min = TRUE)
+                                    min = TRUE,
+                                    intercept = intercept)
   return(rmse.performance)
 }
 
@@ -176,14 +178,15 @@ pls.pipeline <- function(response.mat, #matrix of predictor variables
                          ncomp = 10, #number of latent variables to try
                          validation = "LOO", #validation methods; default is Leave One Out)
                          response.vars, #character vector of response variables
-                         z_scale = TRUE #z-score scaling, default is to scale
+                         z_scale = TRUE, #z-score scaling, default is to scale
+                         intercept = TRUE #logical; is responsevariable.Intercept. a column in pls.extract?
 )
 {
   # === Run PLS model ===
   pls <- plsr(response.mat ~ pred.mat, ncomp = ncomp, validation = validation, scale = z_scale, center = z_scale)
 
   # === RMSE: Extract and plot ===
-  rmse.performance <- pls.model.rmse(pls = pls, response.vars = response.vars)
+  rmse.performance <- pls.model.rmse(pls = pls, response.vars = response.vars, intercept = intercept)
   rmse.plot <- pls.plot.rmse(rmse.performance = rmse.performance)
 
   # === Model accuracy: Extract and plot ===
