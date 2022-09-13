@@ -26,7 +26,7 @@ extract.comps <- function(pls.extract, #dataframe from plsr object; columns expe
     print(paste("Print omitted", omitted.row, "rows"))
   }
   print("plsr extract dataframe column names (sample)")
-  print(colnames(pls.extract) %>% head)
+  print(colnames(pls.extract)[1:(length(response.vars)*ncomp*0.25)])
 
   #initiate loop lists
   comp.performance <- list()
@@ -37,10 +37,16 @@ extract.comps <- function(pls.extract, #dataframe from plsr object; columns expe
     response.temp <- response.vars[i]
 
     #all possible column names corresponding to response variable i
-    all.response.colnames <- paste(response.temp, 2:ncomp, "comps", sep = ".")
+    if(intercept == TRUE){
+      all.response.colnames <- c(paste(response.temp, ".Intercept.", sep = .), paste(response.temp, 2:ncomp, "comps", sep = "."))
+    }
+
+    if(intercept == FALSE){
+      all.response.colnames <- paste(response.temp, 2:ncomp, "comps", sep = ".")
+      }
 
     # === df extract ===
-    #extract taxa
+    #extract response variable (e.g taxa)
     df.temp <- pls.extract %>%
       select(all_of(all.response.colnames)) %>%
       rename_with(~ gsub(pattern = paste0(response.temp, "."), replacement = "", .x))
