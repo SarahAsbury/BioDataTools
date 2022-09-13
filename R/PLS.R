@@ -204,7 +204,7 @@ pls.coef.plot <- function(pls, #object
     stop("There should be a single response variable column name provided.")
   }
 
-  pls.coefficients <- pls$coefficients %>% data.frame() %>% pipe_data_status() %>%
+  pls.coefficients <- pls$coefficients %>% data.frame() %>%
     mutate(response = (.data[[response.colname]]) %>% as.numeric) %>%
     select(response) %>%
     rownames_to_column(var = "variable")
