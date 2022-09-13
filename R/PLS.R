@@ -200,19 +200,25 @@ pls.pipeline <- function(response.mat, #matrix of predictor variables
 )
 {
   # === Run PLS model ===
+  print("1. Run PLS Model")
   pls <- plsr(response.mat ~ pred.mat, ncomp = ncomp, validation = validation, scale = z_scale, center = z_scale)
 
   # === RMSE: Extract and plot ===
+  print("2. Extract model performance (RMSE")
   rmse.performance <- pls.model.rmse(pls = pls, response.vars = response.vars, intercept = intercept, ncomp = ncomp)
+  print("3. Plot and store model performance figure")
   rmse.plot <- pls.plot.rmse(rmse.performance = rmse.performance)
 
   # === Model accuracy: Extract and plot ===
+  print("4. Extract model accuracy")
   accuracy <- pls.model.accuracy(rmse.performance = rmse.performance,
                                  response.mat = response.mat,
                                  pls = pls)
+  print("5. Plot and store model accuracy figure")
   accuracy.plot <- pls.plot.accuracy(accuracy = accuracy)
 
   # === return results ===
+  print('6. Store and return PLS results')
   pls.output <- list(pls, rmse.performance, rmse.plot, accuracy, accuracy.plot)
   names(pls.output) <- c("pls", "rmse", "rmse.plot", "accuracy", "accuracy.plot")
   return(pls.output)
