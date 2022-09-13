@@ -196,8 +196,8 @@ pls.plot.accuracy <- function(accuracy #pls.model.accuracy output object
 
 # === plot co-efficients ===
 #Single co-efficient plot
-pls.coef.plot <- function(pls,
-                          response.colname
+pls.coef.plot <- function(pls, #object
+                          response.colname #string
 )
 {
   if(length(response.colname) != 1){
@@ -205,7 +205,7 @@ pls.coef.plot <- function(pls,
   }
 
   pls.coefficients <- pls$coefficients %>% data.frame() %>%
-    mutate(response =  eval(parse(text = response.colname)) %>% as.numeric) %>%
+    mutate(response =  get(response.colname) %>% as.numeric) %>%
     select(response) %>%
     rownames_to_column(var = "variable")
 
