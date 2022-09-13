@@ -8,10 +8,12 @@ library(pls)
 # === Sub-functions ===
 #extract results from pls objects (general function)
 extract.comps <- function(pls.extract, #dataframe from plsr object; columns expected in following format: responsevariable.comp.x
+                          ncomp, #number of components/latent variables (plsr object)
                           response.vars, #character vector of response variable column names
                           min = TRUE, #extract minimum value
                           intercept = TRUE, #logical; is responsevariable.Intercept. a column in pls.extract?
-                          transpose = TRUE){
+                          transpose = TRUE
+                          ){
   #inspect data
   print("Wrangling dataframe:")
   print(pls.extract[1:5,1:5])
@@ -23,8 +25,8 @@ extract.comps <- function(pls.extract, #dataframe from plsr object; columns expe
   if(omitted.row > 0){
     print(paste("Print omitted", omitted.row, "rows"))
   }
-  print("plsr extract dataframe column names")
-  print(colnames(pls.extract))
+  print("plsr extract dataframe column names (sample)")
+  print(colnames(pls.extract) %>% head)
 
   #initiate loop lists
   comp.performance <- list()
@@ -34,10 +36,13 @@ extract.comps <- function(pls.extract, #dataframe from plsr object; columns expe
     #dynamic variable
     response.temp <- response.vars[i]
 
+    #all possible column names corresponding to response variable i
+    all.response.colnames <- paste(response.temp, 2:ncomp, "comps", sep = ".")
+
     # === df extract ===
     #extract taxa
     df.temp <- pls.extract %>%
-      select(starts_with(paste(response.temp))) %>%
+      select(all_of(all.response.colnames)) %>%
       rename_with(~ gsub(pattern = paste0(response.temp, "."), replacement = "", .x))
 
     #fix .Intercept.
@@ -85,7 +90,8 @@ extract.comps <- function(pls.extract, #dataframe from plsr object; columns expe
 #extract rmse from pls
 pls.model.rmse <- function(pls, #pls object
                            response.vars, #character vector of prs response variables
-                           intercept = TRUE ##logical; is responsevariable.Intercept. a column in pls.extract?
+                           intercept = TRUE, #logical; is response variable.Intercept. a column in pls.extract?
+                           ncomp  #number of components/latent variables (plsr object)
 )
 {
   rmsep <- RMSEP(pls)
@@ -93,7 +99,8 @@ pls.model.rmse <- function(pls, #pls object
   rmse.performance <- extract.comps(pls.extract = rmsep.extract,
                                     response.vars = response.vars,
                                     min = TRUE,
-                                    intercept = intercept)
+                                    intercept = intercept,
+                                    ncomp = ncomp)
   return(rmse.performance)
 }
 
@@ -190,7 +197,7 @@ pls.pipeline <- function(response.mat, #matrix of predictor variables
   pls <- plsr(response.mat ~ pred.mat, ncomp = ncomp, validation = validation, scale = z_scale, center = z_scale)
 
   # === RMSE: Extract and plot ===
-  rmse.performance <- pls.model.rmse(pls = pls, response.vars = response.vars, intercept = intercept)
+  rmse.performance <- pls.model.rmse(pls = pls, response.vars = response.vars, intercept = intercept, ncomp = ncomp)
   rmse.plot <- pls.plot.rmse(rmse.performance = rmse.performance)
 
   # === Model accuracy: Extract and plot ===
