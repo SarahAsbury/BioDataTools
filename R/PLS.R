@@ -95,7 +95,7 @@ extract.comps <- function(pls.extract, #dataframe from plsr object; columns expe
 
 #extract rmse from pls
 pls.model.rmse <- function(pls, #pls object
-                           response.vars, #character vector of prs response variables
+                           response.vars, #character vector of response variables
                            intercept = TRUE, #logical; is response variable.Intercept. a column in pls.extract?
                            ncomp  #number of components/latent variables (plsr object)
 )
@@ -137,15 +137,15 @@ pls.model.accuracy <- function(rmse.performance, #pls.model.rmse output object
                                response.mat, #response matrix input to plsr function
                                pls #pls object
 ){
-  #best # components for each taxa
+  #best # components for each response variable
   #remove response variables (e.g taxa) where intercept (0) is best performing number of components
   best.comp <- bind_rows(rmse.performance$minCV, .id = "column_label") %>% filter(comps != "Intercept") %>%
     mutate(column.select = paste(column_label, comps, sep = "."))
 
-  #actual taxa PRS
-  actual <- taxa.mat %>% data.frame %>% select(all_of(best.comp$column_label))
+  #actual response variable value
+  actual <- response.mat %>% data.frame %>% select(all_of(best.comp$column_label))
 
-  #predicted taxa PRS
+  #predicted response variable value
   predictions <- (pls$validation$pred) %>% data.frame %>%
     select(all_of(best.comp$column.select))
   accuracy.df <- cbind(actual, predictions)
