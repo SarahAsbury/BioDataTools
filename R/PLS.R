@@ -167,7 +167,7 @@ pls.plot.accuracy <- function(accuracy #pls.model.accuracy output object
   for(i in 1:length(viable.response)){
     temp.response <- viable.response[i]
     accuracy.temp <- accuracy$accuracy.df %>% select(starts_with(temp.response)) %>%
-      rename_with( ~ gsub(pattern = "[0-9]\\.comps", replacement = "pred", x = .))
+      rename_with( ~ gsub(pattern = "\\.[0-9]+\\.comps", replacement = "pred", x = .))
     print(head(accuracy.temp))
     p <- ggscatter(data = accuracy.temp,
                    x = paste(temp.response), y = paste(paste0(temp.response, ".pred")),
