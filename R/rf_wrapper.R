@@ -55,6 +55,11 @@ rf_standard <- function(rf.type, #"class" or "reg",
                         experiment.note = NA
                         )
 {
+  # Load libraries
+  require(e1071)
+  require(randomForest)
+  require(logr)
+
   print(rf.param)
   # Setup wd  -------------------------------------------------------------------
   #Save original directory
@@ -135,8 +140,10 @@ rf_standard <- function(rf.type, #"class" or "reg",
     hold <- get(hname)
 
     #Log
-    log_print(paste("training set:", train %>% count(!!as.name(vpred))))
-    log_print(paste("validation set:", hold %>% count(!!as.name(vpred))))
+    log_print("training set:")
+    log_print(train %>% group_by(!!!syms(vpred)) %>% tally)
+    log_print("validation set:")
+    log_print(hold %>% group_by(!!!syms(vpred)) %>% tally)
   }
 
 
